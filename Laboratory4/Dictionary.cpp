@@ -1,11 +1,15 @@
 #include "Dictionary.h"
 #include "HashTableh.h"
+#include <iostream>
 
 using namespace std;
 
 Dictionary* Init()
 {
 	Dictionary* item = new Dictionary;
+	item->Ht = new HashTable;
+	item->Ht->Size = 5;
+	item->Ht->Items = new HashTableItem * [5]();
 	string key, value;
 	item->Key = key;
 	item->Value = value;
@@ -24,7 +28,7 @@ void Delete(Dictionary* d, const string& key)
 
 string Search(Dictionary* d, const string& key)
 {
-	Search(d->Ht, key);
+	Search(d, key);
 	return "";
 }
 

@@ -7,13 +7,30 @@ using namespace std;
 
 void DisplayDictionary(Dictionary* d)
 {
-	if (!d->Ht)
-	{
-		cout << "Empty" << endl;
+	if (d == nullptr) {
+		cout << "Dictionary not init." << endl;
 		return;
 	}
 
-	DisplayTable(d->Ht);
+	if (d->Ht == nullptr) {
+		cout << "Hash not init" << endl;
+		return;
+	}
+
+	cout << "--- Dictionary ---" << endl;
+
+	// Перебираем все элементы в хэш-таблице
+	for (int i = 0; i < d->Ht->Size; ++i) {
+		HashTableItem* item = d->Ht->Items[i]; // Получаем текущий бакет
+
+		// Проверяем, есть ли элементы в бакете
+		while (item != nullptr) {
+			cout << "key: " << item->Key << ", value: " << item->Value << endl;
+			item = item->Next; // Переход к следующему элементу в цепочке
+		}
+	}
+
+	cout << "------------------------" << endl;
 }
 
 void DictionaryMenu(Dictionary* d)
@@ -23,49 +40,54 @@ void DictionaryMenu(Dictionary* d)
 		cout << "Current Dictionary: " << endl;
 		DisplayDictionary(d);
 		cout << endl;
-		int choice = GetInput("Dictionary menu: \n 1. Add\n 2. Remove\n 3. Search\n 0. Exit\n Your Input: ");
+		int choice = GetInput("Dictionary menu: \n 1. Add\n 2. Remove\n 3. Search\n \
+0. Exit\n Your Input: ");
 		switch (choice)
 		{
-		case 1:
-		{
-			string key, value;
-			cout << "Enter key to add; " << key << endl;
-			cout << "Enter value to add: " << value << endl;
-			Insert(d, key, value);
-			break;
-		}
-
-		case 2:
-		{
-			string key;
-			cout << "Enter key to remove: " << key << endl;
-			Delete(d, key);
-			break;
-		}
-
-		case 3: 
-		{
-			string key;
-			cout << "Enter key to search: " << key << endl;
-			string value = Search(d, key);
-			if (!value.empty())
+			case 1:
 			{
-				cout << "value: " << endl;
+				string key, value;
+				cout << "Enter key to add; ";
+				cin >> key;
+				cout << "Enter value to add: ";
+				cin >> value;
+				Insert(d, key, value);
+				break;
 			}
 
-			else
+			case 2:
 			{
-				cout << "value not found " << endl;
+				string key;
+				cout << "Enter key to remove: ";
+				cin >> key;
+				Delete(d, key);
+				break;
 			}
 
-			break;
-		}
+			case 3: 
+			{
+				string key;
+				cout << "Enter key to search: ";
+				cin >> key;
+				string value = Search(d, key);
+				if (!value.empty())
+				{
+					cout << "value: " << value << endl;
+				}
 
-		case 0:
-			Free(d);
-			return;
-		default:
-			cout << "Error" << endl;
+				else
+				{
+					cout << "value not found " << endl;
+				}
+
+				break;
+			}
+
+			case 0:
+				Free(d);
+				return;
+			default:
+				cout << "Error" << endl;
 		}
 	}
 }

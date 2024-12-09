@@ -1,5 +1,6 @@
 #pragma once
 #include "HashTableh.h"
+#include "HashTableItem.h"
 
 struct Dictionary
 {

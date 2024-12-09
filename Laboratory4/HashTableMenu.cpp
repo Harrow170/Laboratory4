@@ -24,55 +24,62 @@ void DisplayTable(HashTable* ht)
 	}
 }
 
-void HashTablemenu(HashTable* ht)
+void HashTableMenu(HashTable* ht)
 {
+	//HashTable* ht = Created();
 	while (true)
 	{
 		cout << "Current table: " << endl;
 		DisplayTable(ht);
-		int choise = GetInput("Hash table menu: \n 1. Add\n 2. Delete\n 3. Search\n 0. Exit\n Your input: ");
+		int choise = GetInput("Hash table menu: \n 1. Add\n 2. Delete\n \
+3. Search\n 0. Exit\n Your input: ");
 		switch (choise)
 		{
-		case 1:
-		{
-			string key, value;
-			cout << "Enter key to add: " << key << endl;
-			cout << "Enter value to add: " << value << endl;
-			Add(ht, key, value);
-			break;
-		}
-
-		case 2:
-		{
-			string key;
-			cout << "Enter key to remove: " << key << endl;
-			Remove(ht, key);
-			break;
-		}
-
-		case 3:
-		{
-			string key;
-			cout << "Enter key to search: " << key << endl;
-			string value = Search(ht, key);
-			if (!value.empty())
+			case 1:
 			{
-				cout << "Value: " << value << endl;
+				string key, value;
+				cout << "Enter key to add: ";
+				cin >> key;
+				cout << "Enter value to add: ";
+				cin >> value;
+				Add(ht, key, value);
+				cout << endl;
+				break;
 			}
 
-			else
+			case 2:
 			{
-				cout << "value not found" << endl;
+				string key;
+				cout << "Enter key to remove: ";
+				cin >> key;
+				Remove(ht, key);
+				cout << endl;
+				break;
 			}
 
-			break;
-		}
+			case 3:
+			{
+				string key;
+				cout << "Enter key to search: " << key << endl;
+				string value = Search(ht, key);
+				if (!value.empty())
+				{
+					cout << "Value: " << value << endl;
+				}
 
-		case 0:
-			Free(ht);
-			return;
-		default:
-			cout << "Error" << endl;
+				else
+				{
+					cout << "value not found" << endl;
+				}
+
+				break;
+			}
+
+			case 0:
+				Free(ht);
+				return;
+			default:
+				cout << "Error" << endl;
 		}
 	}
 }

@@ -17,24 +17,22 @@ void Menu()
 		int choice = GetInput("Menu: \n 1. Hash Table\n 2. Dictionary\n 0. Exit\n Your Input: ");
 		switch (choice)
 		{
-		case 1:
-		{
-			HashTableMenu(ht);
-			break;
-		}
+			case 1:
+			{
+				HashTableMenu(ht);
+				break;
+			}
 
-		case 2:
-		{
-			DictionaryMenu(d);
-			break;
-		}
+			case 2:
+			{
+				DictionaryMenu(d);
+				break;
+			}
 
-		case 0:
-			Free(ht);
-			Free(d);
-			return;
-		default:
-			cout << "Error" << endl;
+			case 0:
+				return;
+			default:
+				cout << "Error" << endl;
 		}
 	}
 }
