@@ -28,7 +28,17 @@ void Delete(Dictionary* d, const string& key)
 
 string Search(Dictionary* d, const string& key)
 {
-	Search(d, key);
+	int index = HashFunction(key.c_str(), 31, d->Ht->Size);
+	HashTableItem* current = d->Ht->Items[index];
+	while (current)
+	{
+		if (current->Key == key)
+		{
+			return current->Value;
+		}
+
+		current = current->Next;
+	}
 	return "";
 }
 

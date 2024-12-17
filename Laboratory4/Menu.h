@@ -6,4 +6,5 @@
 #include "DictionaryMenu.h"
 #include "GetInput.h"
 
+//! \brief menu
 void Menu();
