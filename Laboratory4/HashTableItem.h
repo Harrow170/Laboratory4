@@ -13,9 +13,6 @@ struct HashTableItem
 
 	//! \brief pointer to next element
 	HashTableItem* Next;
-};
 
-//! \brief node create
-//! \param key to get element
-//! \param value of element
-HashTableItem* Create(const string& key, const string& value);
+	HashTableItem(const string& key, const string& value) : Key(key), Value(value), Next(nullptr) {};
+};

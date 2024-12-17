@@ -19,6 +19,7 @@ void DisplayTable(HashTable* ht)
 			{
 				cout << "(" << current->Key << ", " << current->Value << ") ";
 				current = current->Next;
+				cout << endl;
 			}
 		}
 	}
@@ -31,6 +32,7 @@ void HashTableMenu(HashTable* ht)
 	{
 		cout << "Current table: " << endl;
 		DisplayTable(ht);
+		cout << endl;
 		int choise = GetInput("Hash table menu: \n 1. Add\n 2. Delete\n \
 3. Search\n 0. Exit\n Your input: ");
 		switch (choise)

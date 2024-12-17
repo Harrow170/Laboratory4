@@ -27,7 +27,7 @@ void Add(HashTable* ht, const string& key, const string& value)
 	}
 
 	int index = HashFunction(key.c_str(), 31, ht->Size);
-	HashTableItem* newItem = new HashTableItem{ key, value, nullptr };
+	HashTableItem* newItem = new HashTableItem{ key, value};
 	if (!ht->Items[index])
 	{
 		ht->Items[index] = newItem;

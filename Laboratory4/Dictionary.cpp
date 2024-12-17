@@ -18,7 +18,31 @@ Dictionary* Init()
 
 void Insert(Dictionary* d, const string& key, const string& value)
 {
-	Add(d->Ht, key, value);
+	if (static_cast<float>(d->Ht->Count) / d->Ht->Size > FACTORIAL)
+	{
+		Rehash(d->Ht);
+	}
+
+	int index = HashFunction(key.c_str(), 31, d->Ht->Size);
+	HashTableItem* current = d->Ht->Items[index];
+	while (current != nullptr)
+	{
+		if (current->Key == key)
+		{
+			current->Value = value;
+			return;
+		}
+
+		current = current->Next;
+	}
+
+	HashTableItem* newItem = new HashTableItem(key, value);
+	newItem->Next = d->Ht->Items[index];
+	d->Ht->Items[index] = newItem;
+	d->Ht->Count++;
+
+	//Add(d->Ht, key, value);
+	//HashTableItem* current = d->Ht->Items[index];
 }
 
 void Delete(Dictionary* d, const string& key)
