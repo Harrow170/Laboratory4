@@ -20,7 +20,7 @@ void Insert(Dictionary* d, const string& key, const string& value)
 {
 	if (static_cast<float>(d->Ht->Count) / d->Ht->Size > FACTORIAL)
 	{
-		Rehash(d->Ht);
+		Rehash(d->Ht, d->Ht->Size * GROWTH_FACTOR);
 	}
 
 	int index = HashFunction(key.c_str(), 31, d->Ht->Size);

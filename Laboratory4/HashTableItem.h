@@ -14,5 +14,6 @@ struct HashTableItem
 	//! \brief pointer to next element
 	HashTableItem* Next;
 
+	//! \brief constructor
 	HashTableItem(const string& key, const string& value) : Key(key), Value(value), Next(nullptr) {};
 };

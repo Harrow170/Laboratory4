@@ -18,7 +18,7 @@ struct HashTable
 };
 
 //! \brief growthfactor for resize
-const double GROWTH_FACTOR = 1.5;
+const int GROWTH_FACTOR = 2;
 
 //! \brief constant when resize
 const float FACTORIAL = 0.7;
@@ -55,4 +55,5 @@ int HashFunction(const char* str, int a, int size);
 
 //! \brief rehash table
 //! \param ht pointer
-void Rehash(HashTable* ht);
+//! \param newSize new size btw
+void Rehash(HashTable* ht, int newSize);
