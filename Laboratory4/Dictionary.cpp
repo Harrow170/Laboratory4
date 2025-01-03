@@ -1,30 +1,33 @@
 #include "Dictionary.h"
 #include "HashTableh.h"
 #include <iostream>
+#include "HashBase.h"
 
 using namespace std;
 
-Dictionary* Init()
+Dictionary* CreateDictionary()
 {
 	Dictionary* item = new Dictionary;
-	item->Ht = new HashTable;
-	item->Ht->Size = 5;
-	item->Ht->Items = new HashTableItem * [5]();
+	item->HashTable = new HashTable;
+	item->HashTable->Size = 5;
+	item->HashTable->Items = new HashTableItem * [5]();
 	string key, value;
 	item->Key = key;
 	item->Value = value;
 	return item;
 }
 
-void Insert(Dictionary* d, const string& key, const string& value)
+void Insert(Dictionary* dictionary, const string& key, const string& value)
 {
-	if (static_cast<float>(d->Ht->Count) / d->Ht->Size > FACTORIAL)
+	//TODO: RSDN
+	if (static_cast<float>(dictionary->HashTable->Count) / \
+		dictionary->HashTable->Size > FACTORIAL)
 	{
-		Rehash(d->Ht, d->Ht->Size * GROWTH_FACTOR);
+		Rehash(dictionary->HashTable, dictionary->HashTable->Size * GROWTH_FACTOR);
 	}
 
-	int index = HashFunction(key.c_str(), 31, d->Ht->Size);
-	HashTableItem* current = d->Ht->Items[index];
+	int index = HashFunction(key.c_str(), HASH_BASE, dictionary->HashTable->Size);
+	HashTableItem* current = dictionary->HashTable->Items[index];
 	while (current != nullptr)
 	{
 		if (current->Key == key)
@@ -37,23 +40,23 @@ void Insert(Dictionary* d, const string& key, const string& value)
 	}
 
 	HashTableItem* newItem = new HashTableItem(key, value);
-	newItem->Next = d->Ht->Items[index];
-	d->Ht->Items[index] = newItem;
-	d->Ht->Count++;
+	newItem->Next = dictionary->HashTable->Items[index];
+	dictionary->HashTable->Items[index] = newItem;
+	dictionary->HashTable->Count++;
 
 	//Add(d->Ht, key, value);
 	//HashTableItem* current = d->Ht->Items[index];
 }
 
-void Delete(Dictionary* d, const string& key)
+void Delete(Dictionary* dictionary, const string& key)
 {
-	Remove(d->Ht, key);
+	Remove(dictionary->HashTable, key);
 }
 
-string Search(Dictionary* d, const string& key)
+string Search(Dictionary* dictionary, const string& key)
 {
-	int index = HashFunction(key.c_str(), 31, d->Ht->Size);
-	HashTableItem* current = d->Ht->Items[index];
+	int index = HashFunction(key.c_str(), HASH_BASE, dictionary->HashTable->Size);
+	HashTableItem* current = dictionary->HashTable->Items[index];
 	while (current)
 	{
 		if (current->Key == key)
@@ -66,7 +69,7 @@ string Search(Dictionary* d, const string& key)
 	return "";
 }
 
-void Free(Dictionary* d)
+void Free(Dictionary* dictionary)
 {
-	Free(d->Ht);
+	Free(dictionary->HashTable);
 }

@@ -1,17 +1,18 @@
 #include "HashTableh.h"
 #include "HashTableItem.h"
 #include <iostream>
+#include "HashBase.h"
 
 using namespace std;
 
-HashTable* Created()
+HashTable* CreateTable()
 {
 	HashTable* table = new HashTable;
-	int size = 5;
-	table->Size = size;
+	//int size = 5;
+	//table->Size = size;
 	table->Count = 0;
-	table->Items = new HashTableItem * [size];
-	for (int i = 0; i < size; ++i)
+	table->Items = new HashTableItem * [INITIAL_SIZE];
+	for (int i = 0; i < INITIAL_SIZE; ++i)
 	{
 		table->Items[i] = nullptr;
 	}
@@ -19,23 +20,22 @@ HashTable* Created()
 	return table;
 }
 
-void Add(HashTable* ht, const string& key, const string& value)
+void Add(HashTable* table, const string& key, const string& value)
 {
-	int index = HashFunction(key.c_str(), 31, ht->Size);
+	int index = HashFunction(key.c_str(), HASH_BASE, table->Size);
 	HashTableItem* newItem = new HashTableItem{ key, value};
-	if (!ht->Items[index])
+	if (!table->Items[index])
 	{
-		ht->Items[index] = newItem;
+		table->Items[index] = newItem;
 	}
 
 	else
 	{
-		HashTableItem* current = ht->Items[index];
+		HashTableItem* current = table->Items[index];
 		while (current->Next)
 		{
 			if (current->Key == key)
 			{
-				cout << "Duplicate " << endl;
 				delete newItem;
 				return;
 			}
@@ -46,17 +46,17 @@ void Add(HashTable* ht, const string& key, const string& value)
 		current->Next = newItem;
 	}
 
-	ht->Count++;
-	if (static_cast<float>(ht->Count) / ht->Size > FACTORIAL)
+	table->Count++;
+	if (static_cast<float>(table->Count) / table->Size > FACTORIAL)
 	{
-		Rehash(ht, ht->Size * GROWTH_FACTOR);
+		Rehash(table, table->Size * GROWTH_FACTOR);
 	}
 }
 
-void Remove(HashTable* ht, const string& key)
+void Remove(HashTable* table, const string& key)
 {
-	int index = HashFunction(key.c_str(), 31, ht->Size);
-	HashTableItem* current = ht->Items[index];
+	int index = HashFunction(key.c_str(), HASH_BASE, table->Size);
+	HashTableItem* current = table->Items[index];
 	HashTableItem* previous = nullptr;
 	while (current)
 	{
@@ -69,11 +69,11 @@ void Remove(HashTable* ht, const string& key)
 
 			else
 			{
-				ht->Items[index] = current->Next;
+				table->Items[index] = current->Next;
 			}
 
 			delete current;
-			ht->Count--;
+			table->Count--;
 			return;
 		}
 
@@ -81,16 +81,17 @@ void Remove(HashTable* ht, const string& key)
 		current = current->Next;
 	}
 
-	if (static_cast<float>(ht->Count) / ht->Size < FACTORIAL / GROWTH_FACTOR)
+	if (static_cast<float>(table->Count) / table->Size < \
+		FACTORIAL / GROWTH_FACTOR)
 	{
-		Rehash(ht, ht->Size / GROWTH_FACTOR);
+		Rehash(table, table->Size / GROWTH_FACTOR);
 	}
 }
 
-string Search(HashTable* ht, const string& key)
+string Search(HashTable* table, const string& key)
 {
-	int index = HashFunction(key.c_str(), 31, ht->Size);
-	HashTableItem* current = ht->Items[index];
+	int index = HashFunction(key.c_str(), 31, table->Size);
+	HashTableItem* current = table->Items[index];
 	while (current)
 	{
 		if (current->Key == key)
@@ -104,11 +105,11 @@ string Search(HashTable* ht, const string& key)
 	return "";
 }
 
-void Free(HashTable* ht)
+void Free(HashTable* table)
 {
-	for (int i = 0; i < ht->Size; ++i)
+	for (int i = 0; i < table->Size; ++i)
 	{
-		HashTableItem* current = ht->Items[i];
+		HashTableItem* current = table->Items[i];
 		while (current)
 		{
 			HashTableItem* temp = current;
@@ -117,8 +118,8 @@ void Free(HashTable* ht)
 		}
 	}
 
-	delete[] ht->Items;
-	delete ht;
+	delete[] table->Items;
+	delete table;
 }
 
 int HashFunction(const char* str, int a, int size)
@@ -159,16 +160,16 @@ int HashFunction(const char* str, int a, int size)
 	ht->Items = newItem;
 }*/
 
-void Rehash(HashTable* ht, int newSize)
+void Rehash(HashTable* table, int newSize)
 {
-	HashTableItem** oldNode = ht->Items;
-	int oldSize = ht->Size;
+	HashTableItem** oldNode = table->Items;
+	int oldSize = table->Size;
 
-	ht->Size = newSize;
-	ht->Items = new HashTableItem * [newSize];
+	table->Size = newSize;
+	table->Items = new HashTableItem * [newSize];
 	for (int i = 0; i < newSize; ++i)
 	{
-		ht->Items[i] = nullptr;
+		table->Items[i] = nullptr;
 	}
 
 	for (int i = 0; i < oldSize; ++i)
@@ -177,9 +178,9 @@ void Rehash(HashTable* ht, int newSize)
 		while (item != nullptr)
 		{
 			HashTableItem* nextNode = item->Next;
-			int newIndex = HashFunction(item->Key.c_str(), 31, ht->Size);
-			item->Next = ht->Items[newIndex];
-			ht->Items[newIndex] = item;
+			int newIndex = HashFunction(item->Key.c_str(), 31, table->Size);
+			item->Next = table->Items[newIndex];
+			table->Items[newIndex] = item;
 			item = nextNode;
 		}
 	}

@@ -132,7 +132,6 @@
     <ClCompile Include="HashTableMenu.cpp" />
     <ClCompile Include="GetInput.cpp" />
     <ClCompile Include="HashTable.cpp" />
-    <ClCompile Include="HashTableItem.cpp" />
     <ClCompile Include="Laboratory4.cpp" />
     <ClCompile Include="Menu.cpp" />
   </ItemGroup>
@@ -140,6 +139,7 @@
     <ClInclude Include="Dictionary.h" />
     <ClInclude Include="DictionaryMenu.h" />
     <ClInclude Include="GetInput.h" />
+    <ClInclude Include="HashBase.h" />
     <ClInclude Include="HashTableh.h" />
     <ClInclude Include="HashTableItem.h" />
     <ClInclude Include="HashTableMenu.h" />

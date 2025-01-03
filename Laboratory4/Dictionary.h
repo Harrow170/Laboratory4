@@ -12,29 +12,29 @@ struct Dictionary
 	string Value;
 
 	//! \brief pointer
-	HashTable* Ht;
+	HashTable* HashTable;
 };
 
 //! \brief dictionary initilization
 //! \return dictionary
-Dictionary* Init();
+Dictionary* CreateDictionary();
 
 //! \brief insert element to dictionary
 //! \param d pointer
 //! \param key to get element
 //! \param value of element
-void Insert(Dictionary* d, const string& key, const string& value);
+void Insert(Dictionary* dictionary, const string& key, const string& value);
 
 //! \brief delete element from dictionary
 //! \param d pointer
 //! \param key to get element
-void Delete(Dictionary* d, const string& key);
+void Delete(Dictionary* dictionary, const string& key);
 
 //! \brief search element in dictionary
 //! \param d pointer
 //! \param key to get element
-string Search(Dictionary* d, const string& key);
+string Search(Dictionary* dictionary, const string& key);
 
 //! \brief free dictionary
 //! \param d pointer
-void Free(Dictionary* d);
+void Free(Dictionary* dictionary);

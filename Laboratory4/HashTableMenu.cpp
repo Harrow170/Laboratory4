@@ -2,12 +2,12 @@
 #include "GetInput.h"
 #include <iostream>
 
-void DisplayTable(HashTable* ht)
+void DisplayTable(HashTable* table)
 {
-	for (int i = 0; i < ht->Size; ++i)
+	for (int i = 0; i < table->Size; ++i)
 	{
 		cout << "[" << i << "]: ";
-		HashTableItem* current = ht->Items[i];
+		HashTableItem* current = table->Items[i];
 		if (!current)
 		{
 			cout << "Empty " << endl;
@@ -25,13 +25,13 @@ void DisplayTable(HashTable* ht)
 	}
 }
 
-void HashTableMenu(HashTable* ht)
+void HashTableMenu(HashTable* table)
 {
 	//HashTable* ht = Created();
 	while (true)
 	{
 		cout << "Current table: " << endl;
-		DisplayTable(ht);
+		DisplayTable(table);
 		cout << endl;
 		int choise = GetInput("Hash table menu: \n 1. Add\n 2. Delete\n \
 3. Search\n 0. Exit\n Your input: ");
@@ -39,31 +39,33 @@ void HashTableMenu(HashTable* ht)
 		{
 			case 1:
 			{
-				string key, value;
-				cout << "Enter key to add: ";
-				cin >> key;
-				cout << "Enter value to add: ";
-				cin >> value;
-				Add(ht, key, value);
+				int key = GetInput("Enter key to add: ");
+				int value = GetInput("Enter value to add: ");
+				Add(table, to_string(key), to_string(value));
 				cout << endl;
 				break;
 			}
 
 			case 2:
 			{
-				string key;
-				cout << "Enter key to remove: ";
-				cin >> key;
-				Remove(ht, key);
-				cout << endl;
+				int key = GetInput("Enter key to remove: ");
+				string value = Search(table, to_string(key));
+				if (!value.empty())
+				{
+					Remove(table, to_string(key));
+				}
+				else
+				{
+					cout << "HAHHAHAHHAH, no " << endl;
+				}
+
 				break;
 			}
 
 			case 3:
 			{
-				string key;
-				cout << "Enter key to search: " << key << endl;
-				string value = Search(ht, key);
+				int key = GetInput("Enter key to search: ");
+				string value = Search(table, to_string(key));
 				if (!value.empty())
 				{
 					cout << "Value: " << value << endl;
@@ -78,7 +80,7 @@ void HashTableMenu(HashTable* ht)
 			}
 
 			case 0:
-				Free(ht);
+				Free(table);
 				return;
 			default:
 				cout << "Error" << endl;

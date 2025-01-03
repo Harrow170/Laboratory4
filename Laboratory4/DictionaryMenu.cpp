@@ -5,40 +5,40 @@
 
 using namespace std;
 
-void DisplayDictionary(Dictionary* d)
+void DisplayDictionary(Dictionary* dictionary)
 {
-	if (d == nullptr) {
+	if (dictionary == nullptr) 
+	{
 		cout << "Dictionary not init." << endl;
 		return;
 	}
 
-	if (d->Ht == nullptr) {
+	if (dictionary->HashTable == nullptr) 
+	{
 		cout << "Hash not init" << endl;
 		return;
 	}
 
 	cout << "--- Dictionary ---" << endl;
-
-	// Перебираем все элементы в хэш-таблице
-	for (int i = 0; i < d->Ht->Size; ++i) {
-		HashTableItem* item = d->Ht->Items[i]; // Получаем текущий бакет
-
-		// Проверяем, есть ли элементы в бакете
-		while (item != nullptr) {
+	for (int i = 0; i < dictionary->HashTable->Size; ++i) 
+	{
+		HashTableItem* item = dictionary->HashTable->Items[i];
+		while (item != nullptr) 
+		{
 			cout << "key: " << item->Key << ", value: " << item->Value << endl;
-			item = item->Next; // Переход к следующему элементу в цепочке
+			item = item->Next; 
 		}
 	}
 
 	cout << "------------------------" << endl;
 }
 
-void DictionaryMenu(Dictionary* d)
+void DictionaryMenu(Dictionary* dictionary)
 {
 	while (true)
 	{
 		cout << "Current Dictionary: " << endl;
-		DisplayDictionary(d);
+		DisplayDictionary(dictionary);
 		cout << endl;
 		int choice = GetInput("Dictionary menu: \n 1. Add\n 2. Remove\n 3. Search\n \
 0. Exit\n Your Input: ");
@@ -46,30 +46,32 @@ void DictionaryMenu(Dictionary* d)
 		{
 			case 1:
 			{
-				string key, value;
-				cout << "Enter key to add; ";
-				cin >> key;
-				cout << "Enter value to add: ";
-				cin >> value;
-				Insert(d, key, value);
+				int key = GetInput("Enter key to add: ");
+				int value = GetInput("Enter value to add: ");
+				Insert(dictionary, to_string(key), to_string(value));
 				break;
 			}
 
 			case 2:
 			{
-				string key;
-				cout << "Enter key to remove: ";
-				cin >> key;
-				Delete(d, key);
+				int key = GetInput("Enter key to remove: ");
+				string value = Search(dictionary, to_string(key));
+				if (!value.empty())
+				{
+					Delete(dictionary, to_string(key));
+				}
+				else
+				{
+					cout << "Nope " << endl;
+				}
+
 				break;
 			}
 
 			case 3: 
 			{
-				string key;
-				cout << "Enter key to search: ";
-				cin >> key;
-				string value = Search(d, key);
+				int key = GetInput("Enter key to search: ");
+				string value = Search(dictionary, to_string(key));
 				if (!value.empty())
 				{
 					cout << "value: " << value << endl;
@@ -84,7 +86,7 @@ void DictionaryMenu(Dictionary* d)
 			}
 
 			case 0:
-				Free(d);
+				Free(dictionary);
 				return;
 			default:
 				cout << "Error" << endl;

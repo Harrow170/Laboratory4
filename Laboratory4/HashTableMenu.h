@@ -3,8 +3,8 @@
 
 //! \brieef display table
 //! \param ht pointer
-void DisplayTable(HashTable* ht);
+void DisplayTable(HashTable* table);
 
 //! \brief menu for table
 //! \param ht pointer
-void HashTableMenu(HashTable* ht);
+void HashTableMenu(HashTable* table);

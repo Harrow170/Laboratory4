@@ -10,8 +10,8 @@ using namespace std;
 
 void Menu()
 {
-	HashTable* ht = Created();
-	Dictionary* d = Init();
+	HashTable* table = CreateTable();
+	Dictionary* dictionary = CreateDictionary();
 	while (true)
 	{
 		int choice = GetInput("Menu: \n 1. Hash Table\n 2. Dictionary\n 0. Exit\n Your Input: ");
@@ -19,13 +19,13 @@ void Menu()
 		{
 			case 1:
 			{
-				HashTableMenu(ht);
+				HashTableMenu(table);
 				break;
 			}
 
 			case 2:
 			{
-				DictionaryMenu(d);
+				DictionaryMenu(dictionary);
 				break;
 			}
 
